@@ -12,6 +12,12 @@ add_subdirectory(vendored/SDL EXCLUDE_FROM_ALL)
 
 add_executable(hellforge 
     src/main.cpp
+    vendored/glad/src/gl.c
+)
+
+target_include_directories(hellforge
+    PRIVATE
+        vendored/glad/include
 )
 
 target_link_libraries(hellforge PRIVATE SDL3::SDL3)
