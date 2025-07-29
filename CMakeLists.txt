@@ -12,6 +12,10 @@ add_subdirectory(vendored/SDL EXCLUDE_FROM_ALL)
 
 add_executable(hellforge 
     src/main.cpp
+    src/shaders.hpp
+    src/shaders.cpp
+    src/opengl.hpp
+    src/opengl.cpp
     vendored/glad/src/gl.c
 )
 

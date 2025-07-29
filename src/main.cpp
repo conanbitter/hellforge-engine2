@@ -2,6 +2,8 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include <glad/gl.h>
+#include "opengl.hpp"
+
 
 int main(int argc, char* argv[]) {
     if (!SDL_Init(SDL_INIT_VIDEO)) {
@@ -25,6 +27,8 @@ int main(int argc, char* argv[]) {
     int version = gladLoadGL((GLADloadfunc)SDL_GL_GetProcAddress);
     SDL_Log("GL %d.%d\n", GLAD_VERSION_MAJOR(version), GLAD_VERSION_MINOR(version));
 
+    initOpenGL();
+
     bool quit = false;
     SDL_Event e;
     while (!quit) {
@@ -36,9 +40,14 @@ int main(int argc, char* argv[]) {
 
         glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+
+        presentOpenGL();
+
         SDL_GL_SwapWindow(window);
         SDL_Delay(1);
     }
+
+    freeOpenGL();
 
     SDL_GL_DestroyContext(context);
     SDL_DestroyWindow(window);
