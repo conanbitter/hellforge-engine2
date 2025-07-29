@@ -1,5 +1,5 @@
 #pragma once
 
-void initOpenGL();
+void initOpenGL(int width, int height);
 void freeOpenGL();
-void presentOpenGL();
+void presentOpenGL(const void* data);

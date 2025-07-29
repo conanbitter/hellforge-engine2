@@ -1,8 +1,13 @@
 #include <print>
+#include <vector>
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include <glad/gl.h>
 #include "opengl.hpp"
+#include "color.hpp"
+
+const int FRAME_WIDTH = 480;
+const int FRAME_HEIGHT = 360;
 
 
 int main(int argc, char* argv[]) {
@@ -27,7 +32,17 @@ int main(int argc, char* argv[]) {
     int version = gladLoadGL((GLADloadfunc)SDL_GL_GetProcAddress);
     SDL_Log("GL %d.%d\n", GLAD_VERSION_MAJOR(version), GLAD_VERSION_MINOR(version));
 
-    initOpenGL();
+    initOpenGL(FRAME_WIDTH, FRAME_HEIGHT);
+
+    std::print("Size of Color: {}", sizeof(Color));
+
+    std::vector<Color> frame(FRAME_WIDTH * FRAME_HEIGHT);
+
+    for (int y = 0;y < FRAME_HEIGHT;y++) {
+        for (int x = 0;x < FRAME_WIDTH;x++) {
+            frame[x + y * FRAME_WIDTH] = Color(x * 255 / FRAME_WIDTH << 8 | y * 255 / FRAME_HEIGHT);
+        }
+    }
 
     bool quit = false;
     SDL_Event e;
@@ -41,7 +56,7 @@ int main(int argc, char* argv[]) {
         glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        presentOpenGL();
+        presentOpenGL(frame.data());
 
         SDL_GL_SwapWindow(window);
         SDL_Delay(1);

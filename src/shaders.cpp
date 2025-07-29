@@ -28,7 +28,8 @@ static const char* fragmentShaderCode = R"(
     out vec4 outputColor;
 
     void main() {
-        outputColor = vec4(0.5, 0.6, 0.7, 1.0);
+        vec4 c = texture(tex, fragUV);
+        outputColor = vec4(c.r, c.g, 0.0, 1.0);
     }
 )";
 
