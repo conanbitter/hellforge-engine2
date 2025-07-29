@@ -1,5 +1,5 @@
 #include <string>
-#include <stdexcept> 
+#include <stdexcept>
 
 #include "shaders.hpp"
 
@@ -21,15 +21,18 @@ static const char* vertexShaderCode = R"(
 
 static const char* fragmentShaderCode = R"(
     #version 150
-    uniform sampler2D tex;
+    uniform usampler2D tex;
 
     in vec2 fragUV;
 
     out vec4 outputColor;
 
     void main() {
-        vec4 c = texture(tex, fragUV);
-        outputColor = vec4(c.r, c.g, 0.0, 1.0);
+        uint c = texture(tex, fragUV).r;
+        float r = float(c>>11)/31.0;
+        float g = float((c>>5) & 0x3Fu)/63.0;
+        float b = float(c & 0x1Fu)/31.0;
+        outputColor = vec4(r, g, b, 1.0);
     }
 )";
 

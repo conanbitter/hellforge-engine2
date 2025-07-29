@@ -32,7 +32,12 @@ int main(int argc, char* argv[]) {
     int version = gladLoadGL((GLADloadfunc)SDL_GL_GetProcAddress);
     SDL_Log("GL %d.%d\n", GLAD_VERSION_MAJOR(version), GLAD_VERSION_MINOR(version));
 
-    initOpenGL(FRAME_WIDTH, FRAME_HEIGHT);
+    try {
+        initOpenGL(FRAME_WIDTH, FRAME_HEIGHT);
+    }
+    catch (const std::runtime_error& e) {
+        SDL_Log("[OpenGL] %s", e.what());
+    }
 
     std::print("Size of Color: {}", sizeof(Color));
 
@@ -40,7 +45,7 @@ int main(int argc, char* argv[]) {
 
     for (int y = 0;y < FRAME_HEIGHT;y++) {
         for (int x = 0;x < FRAME_WIDTH;x++) {
-            frame[x + y * FRAME_WIDTH] = Color(x * 255 / FRAME_WIDTH << 8 | y * 255 / FRAME_HEIGHT);
+            frame[x + y * FRAME_WIDTH] = Color(y * 31 / FRAME_HEIGHT, x * 63 / FRAME_WIDTH, 0);
         }
     }
 
