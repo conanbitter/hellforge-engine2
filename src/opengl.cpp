@@ -2,6 +2,7 @@
 #include <glad/gl.h>
 
 #include "shaders.hpp"
+#include <algorithm>
 
 static const float quad[6][4] = {
     {-1.0f, -1.0f, 0.0f, 1.0f},
@@ -16,13 +17,16 @@ static GLuint program;
 static GLuint vao;
 static GLuint vbo;
 static GLuint frameTexture;
-GLsizei frameWidth;
-GLsizei frameHeight;
+static GLsizei frameWidth;
+static GLsizei frameHeight;
+static GLint scale;
+static bool integerScale = true;
+static float frameAR;
 
 
 void initOpenGL(int width, int height) {
     GLint vert_loc, vertUV_loc, tex_loc;
-    program = initShaders(vert_loc, vertUV_loc, tex_loc);
+    program = initShaders(vert_loc, vertUV_loc, tex_loc, scale);
 
     glDisable(GL_BLEND);
     glDisable(GL_DEPTH_TEST);
@@ -40,6 +44,7 @@ void initOpenGL(int width, int height) {
 
     frameWidth = width;
     frameHeight = height;
+    frameAR = (float)width / (float)height;
 
     glGenTextures(1, &frameTexture);
     glActiveTexture(GL_TEXTURE0);
@@ -47,7 +52,30 @@ void initOpenGL(int width, int height) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, frameWidth, frameHeight, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, nullptr);
+
+    glUseProgram(program);
     glUniform1i(tex_loc, 0);
+    shadersScale(scale, 1.0f, 1.0f);
+}
+
+void resizeOpenGL(int width, int height) {
+    glViewport(0, 0, width, height);
+    if (width % frameWidth == 0 && height % frameHeight == 0) {
+        shadersScale(scale, 1.0f, 1.0f);
+    } else if (integerScale) {
+        int iscale = std::min(width / frameWidth, height / frameHeight);
+        shadersScale(
+            scale,
+            (float)(frameWidth * iscale) / (float)width,
+            (float)(frameHeight * iscale) / (float)height);
+    } else {
+        float windowAR = (float)width / (float)height;
+        if (frameAR < windowAR) {
+            shadersScale(scale, frameAR / windowAR, 1.0f);
+        } else {
+            shadersScale(scale, 1.0f, windowAR / frameAR);
+        }
+    }
 }
 
 void freeOpenGL() {

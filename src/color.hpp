@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdint>
 
+#pragma pack(push, 1) 
 class Color {
 public:
     Color() :value(0) {}
@@ -12,3 +13,4 @@ public:
 private:
     uint16_t value;
 };
+#pragma pack(pop)

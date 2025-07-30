@@ -7,6 +7,7 @@ using namespace std::string_literals;
 
 static const char* vertexShaderCode = R"(
     #version 150
+    uniform vec2 scale;
 
     in vec2 vert;
     in vec2 vertUV;
@@ -14,7 +15,7 @@ static const char* vertexShaderCode = R"(
     out vec2 fragUV;
 
     void main() {
-        gl_Position = vec4(vert.x*0.5, vert.y*0.5, 0.0, 1.0);
+        gl_Position = vec4(vert.x*scale.x, vert.y*scale.y, 0.0, 1.0);
         fragUV = vertUV;
     }
 )";
@@ -118,10 +119,15 @@ static GLuint compileShaderProgram(const char* vertexShaderCode, const char* fra
     return program;
 };
 
-GLuint initShaders(GLint& vertex_pos, GLint& vertex_uv, GLint& texture) {
+GLuint initShaders(GLint& vertex_pos, GLint& vertex_uv, GLint& texture, GLint& scale) {
     GLuint program = compileShaderProgram(vertexShaderCode, fragmentShaderCode);
     vertex_pos = glGetAttribLocation(program, "vert");
     vertex_uv = glGetAttribLocation(program, "vertUV");
     texture = glGetUniformLocation(program, "tex");
+    scale = glGetUniformLocation(program, "scale");
     return program;
+}
+
+void shadersScale(GLint param, float x, float y) {
+    glUniform2f(param, x, y);
 }
