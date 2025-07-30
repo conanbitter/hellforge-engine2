@@ -55,25 +55,29 @@ void initOpenGL(int width, int height) {
 
     glUseProgram(program);
     glUniform1i(tex_loc, 0);
-    shadersScale(scale, 1.0f, 1.0f);
+    shadersScale(scale, 1.0f, 1.0f, 0.0f, 0.0f);
 }
 
 void resizeOpenGL(int width, int height) {
     glViewport(0, 0, width, height);
     if (width % frameWidth == 0 && height % frameHeight == 0) {
-        shadersScale(scale, 1.0f, 1.0f);
+        shadersScale(scale, 1.0f, 1.0f, 0.0f, 0.0f);
     } else if (integerScale) {
         int iscale = std::min(width / frameWidth, height / frameHeight);
+        bool xoffset = (width - frameWidth * iscale) % 2 != 0;
+        bool yoffset = (height - frameHeight * iscale) % 2 != 0;
         shadersScale(
             scale,
             (float)(frameWidth * iscale) / (float)width,
-            (float)(frameHeight * iscale) / (float)height);
+            (float)(frameHeight * iscale) / (float)height,
+            xoffset ? 1.0f / (float)width : 0.0f,
+            yoffset ? 1.0f / (float)height : 0.0f);
     } else {
         float windowAR = (float)width / (float)height;
         if (frameAR < windowAR) {
-            shadersScale(scale, frameAR / windowAR, 1.0f);
+            shadersScale(scale, frameAR / windowAR, 1.0f, 0.0f, 0.0f);
         } else {
-            shadersScale(scale, 1.0f, windowAR / frameAR);
+            shadersScale(scale, 1.0f, windowAR / frameAR, 0.0f, 0.0f);
         }
     }
 }
