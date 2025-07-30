@@ -46,7 +46,7 @@ void initOpenGL(int width, int height) {
     glBindTexture(GL_TEXTURE_2D, frameTexture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_R16UI, frameWidth, frameHeight, 0, GL_RED_INTEGER, GL_UNSIGNED_SHORT, nullptr);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, frameWidth, frameHeight, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, nullptr);
     glUniform1i(tex_loc, 0);
 }
 
@@ -67,7 +67,7 @@ void freeOpenGL() {
 
 void presentOpenGL(const void* data) {
     glBindTexture(GL_TEXTURE_2D, frameTexture);
-    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth, frameHeight, GL_RED_INTEGER, GL_UNSIGNED_SHORT, data);
+    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth, frameHeight, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, data);
     glUseProgram(program);
     glBindVertexArray(vao);
     glDrawArrays(GL_TRIANGLES, 0, 6);

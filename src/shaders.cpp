@@ -21,18 +21,14 @@ static const char* vertexShaderCode = R"(
 
 static const char* fragmentShaderCode = R"(
     #version 150
-    uniform usampler2D tex;
+    uniform sampler2D tex;
 
     in vec2 fragUV;
 
     out vec4 outputColor;
 
     void main() {
-        uint c = texture(tex, fragUV).r;
-        float r = float(c>>11)/31.0;
-        float g = float((c>>5) & 0x3Fu)/63.0;
-        float b = float(c & 0x1Fu)/31.0;
-        outputColor = vec4(r, g, b, 1.0);
+        outputColor = vec4(texture(tex, fragUV).rgb, 1.0);
     }
 )";
 

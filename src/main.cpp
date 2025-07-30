@@ -45,7 +45,7 @@ int main(int argc, char* argv[]) {
 
     for (int y = 0;y < FRAME_HEIGHT;y++) {
         for (int x = 0;x < FRAME_WIDTH;x++) {
-            frame[x + y * FRAME_WIDTH] = Color(y * 31 / FRAME_HEIGHT, x * 63 / FRAME_WIDTH, 0);
+            frame[x + y * FRAME_WIDTH] = Color(y * 31 / FRAME_HEIGHT, x * 63 / FRAME_WIDTH, 16);
         }
     }
 
