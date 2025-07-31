@@ -18,6 +18,8 @@ add_executable(hellforge
     src/opengl.cpp
     src/color.hpp
     src/color.cpp
+    src/imagebuffer.hpp
+    src/imagebuffer.cpp
     vendored/glad/src/gl.c
 )
 

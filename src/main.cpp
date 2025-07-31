@@ -5,6 +5,7 @@
 #include <glad/gl.h>
 #include "opengl.hpp"
 #include "color.hpp"
+#include "imagebuffer.hpp"
 
 const int FRAME_WIDTH = 480;
 const int FRAME_HEIGHT = 270;
@@ -15,6 +16,9 @@ int main(int argc, char* argv[]) {
         SDL_Log("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
         return 1;
     }
+
+    ImageBuffer test_buffer(34, 45);
+    SDL_Log("Buffer pixel %d\n", test_buffer[5, 0]);
 
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
