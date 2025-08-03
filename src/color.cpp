@@ -1,5 +1,7 @@
 #include "color.hpp"
 
+using namespace pixanv;
+
 Color::Color(int r, int g, int b)
 {
     value = (r & 0b11111) << 11 | (g & 0b111111) << 5 | (b & 0b11111);

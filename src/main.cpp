@@ -67,20 +67,9 @@ int main(int argc, char* argv[]) {
             {
                 int window_width = e.window.data1;
                 int window_height = e.window.data2;
-                SDL_Log("Resize to %dx%d", window_width, window_height);
                 resizeOpenGL(window_width, window_height);
             }
             break;
-            case SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED:
-            {
-                int pixel_width = e.window.data1;
-                int pixel_height = e.window.data2;
-                SDL_Log("Pixel resize to %dx%d", pixel_width, pixel_height);
-            }
-            break;
-            case SDL_EVENT_WINDOW_DISPLAY_SCALE_CHANGED:
-                SDL_Log("Display scale %d %d", e.window.data1, e.window.data2);
-                break;
             }
         }
 
