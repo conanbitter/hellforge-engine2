@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
     }
 
     ImageBuffer test_buffer(34, 45);
-    SDL_Log("Buffer pixel %d\n", test_buffer[5, 0]);
+    SDL_Log("Buffer pixel %d %d\n", test_buffer.pixel(5, 1), (-20) % 10);
 
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);

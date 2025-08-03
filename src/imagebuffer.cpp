@@ -6,14 +6,9 @@ void ImageBuffer::pixel(int x, int y, Color color) {
 }
 
 Color ImageBuffer::pixel(int x, int y) const {
-    if (x<0 || x>m_width - 1 || y<0 || y>m_height - 1) return Color(0);
-    return m_data[x + y * m_width];
-}
-
-Color& ImageBuffer::operator[](int x, int y) {
-    return m_data[x + y * m_width];
-}
-
-const Color& ImageBuffer::operator[](int x, int y) const {
+    x %= m_width;
+    if (x < 0) x += m_width;
+    y %= m_height;
+    if (y < 0)y += m_height;
     return m_data[x + y * m_width];
 }
