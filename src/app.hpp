@@ -5,21 +5,25 @@ namespace pixanv {
     class App;
 
     class Scene {
-        void onLoad(App& app) { isLoaded = true; }
-        void onUnload(App& app) { isLoaded = false; }
+        Scene() :app{ App::getInstance() }, gfx{ app.getCanvas() } {}
 
-        void onUpdate(App& app) {}
-        void onDraw(App& app, RenderTarget& gfx) {}
+        void onLoad() { isLoaded = true; }
+        void onUnload() { isLoaded = false; }
 
-        void onKeyDown(App& app, int key) {}
-        void onKeyUp(App& app, int key) {}
+        void onUpdate() {}
+        void onDraw() {}
 
-        void onMouseMove(App& app, int x, int y, int dx, int dy) {}
-        void onMouseDown(App& app, int button) {}
-        void onMouseUp(App& app, int button) {}
+        void onKeyDown(int key) {}
+        void onKeyUp(int key) {}
+
+        void onMouseMove(int x, int y, int dx, int dy) {}
+        void onMouseDown(int button) {}
+        void onMouseUp(int button) {}
 
     protected:
         bool isLoaded = false;
+        App& app;
+        RenderTarget& gfx;
 
         friend class App;
     };
