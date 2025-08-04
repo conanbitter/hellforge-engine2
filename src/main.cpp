@@ -10,11 +10,21 @@ class TestScene :public pixanv::Scene
 public:
     TestScene() {};
 
+    int actionKey;
+
     void onLoad() override {
         for (int y = 0;y < FRAME_HEIGHT;y++) {
             for (int x = 0;x < FRAME_WIDTH;x++) {
                 gfx.pixel(x, y, x == y ? pixanv::Color(31, 0, 0) : pixanv::Color(0, 0, 0));
             }
+        }
+        actionKey = app.registerKey("D");
+    }
+
+    void onKeyDown(int key) override {
+        if (key == actionKey) {
+            //app.setIntegerScaling(!app.getIntegerScaling());
+            app.setScale(3);
         }
     }
 };

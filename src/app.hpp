@@ -18,11 +18,13 @@ namespace pixanv {
         void requestExit();
 
         int registerKey(const std::string keyname);
+        int registerKey(const char* keyname);
         bool isKeyPressed(int key);
 
         RenderTarget& getCanvas() { return canvas; };
         void setIntegerScaling(bool useIntegerScaling);
         bool getIntegerScaling() const { return integerScaling; }
+        void setScale(int scale);
 
         App(const App&) = delete;
         App& operator=(const App&) = delete;

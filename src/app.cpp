@@ -74,6 +74,14 @@ void App::run() {
                 windowHeight = event.window.data2;
                 resizeOpenGL(windowWidth, windowHeight, integerScaling);
                 break;
+            case SDL_EVENT_KEY_DOWN:
+                if (!event.key.repeat) {
+                    currentScene->onKeyDown(event.key.scancode);
+                }
+                break;
+            case SDL_EVENT_KEY_UP:
+                currentScene->onKeyUp(event.key.scancode);
+                break;
             }
         }
 
@@ -110,14 +118,28 @@ void App::requestExit() {
 }
 
 int App::registerKey(const std::string keyname) {
-    return 0;
+    return SDL_GetScancodeFromName(keyname.c_str());
+}
+
+int App::registerKey(const char* keyname) {
+    return SDL_GetScancodeFromName(keyname);
 }
 
 bool App::isKeyPressed(int key) {
-    return false;
+    return keyboardState[key];
 }
 
 void App::setIntegerScaling(bool useIntegerScaling) {
     integerScaling = useIntegerScaling;
     if (isInitComplete) resizeOpenGL(windowWidth, windowHeight, integerScaling);
+}
+
+void App::setScale(int scale) {
+    windowWidth = frameWidth * scale;
+    windowHeight = frameHeight * scale;
+    if (SDL_GetWindowFlags(window) & SDL_WINDOW_MAXIMIZED) {
+        SDL_RestoreWindow(window);
+    }
+    SDL_SetWindowSize(window, windowWidth, windowHeight);
+    SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 }
