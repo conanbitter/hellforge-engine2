@@ -37,14 +37,15 @@ App& App::getInstance() {
     return theInstance;
 }
 
-void App::init(const std::string& title, int width, int height, int scale) {
+void App::init(const std::string& title, int width, int height, int scale, bool useIntegerScaling) {
     if (isInitComplete) return;
+    integerScaling = useIntegerScaling;
     initWindow(title, width, height, scale);
     keyboardState = SDL_GetKeyboardState(nullptr);
     initOpenGL(width, height);
-    resizeOpenGL(width * scale, height * scale);
-    frameWidth = width;
-    frameHeight = height;
+    resizeOpenGL(width * scale, height * scale, integerScaling);
+    windowWidth = frameWidth = width;
+    windowHeight = frameHeight = height;
     canvas.resize(width, height);
 
     if (currentScene == nullptr) {
@@ -69,12 +70,10 @@ void App::run() {
                 isRunning = false;
                 break;
             case SDL_EVENT_WINDOW_RESIZED:
-            {
-                int window_width = event.window.data1;
-                int window_height = event.window.data2;
-                resizeOpenGL(window_width, window_height);
-            }
-            break;
+                windowWidth = event.window.data1;
+                windowHeight = event.window.data2;
+                resizeOpenGL(windowWidth, windowHeight, integerScaling);
+                break;
             }
         }
 
@@ -118,3 +117,7 @@ bool App::isKeyPressed(int key) {
     return false;
 }
 
+void App::setIntegerScaling(bool useIntegerScaling) {
+    integerScaling = useIntegerScaling;
+    if (isInitComplete) resizeOpenGL(windowWidth, windowHeight, integerScaling);
+}

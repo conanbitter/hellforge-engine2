@@ -20,7 +20,6 @@ static GLuint frameTexture;
 static GLsizei frameWidth;
 static GLsizei frameHeight;
 static GLint scale;
-static bool integerScale = true;
 static float frameAR;
 
 
@@ -60,11 +59,11 @@ void initOpenGL(int width, int height) {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
-void resizeOpenGL(int width, int height) {
+void resizeOpenGL(int width, int height, bool integerScaling) {
     glViewport(0, 0, width, height);
     if (width % frameWidth == 0 && height % frameHeight == 0) {
         shadersScale(scale, 1.0f, 1.0f, 0.0f, 0.0f);
-    } else if (integerScale) {
+    } else if (integerScaling) {
         int iscale = std::min(width / frameWidth, height / frameHeight);
         bool xoffset = (width - frameWidth * iscale) % 2 != 0;
         bool yoffset = (height - frameHeight * iscale) % 2 != 0;

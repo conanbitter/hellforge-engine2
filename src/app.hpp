@@ -11,7 +11,7 @@ namespace pixanv {
         static App& getInstance();
         App() : isInitComplete{ false }, isRunning{ false }, frameWidth{ 0 }, frameHeight{ 0 }, currentScene{ nullptr } {};
         ~App();
-        void init(const std::string& title, int width, int height, int scale = 1);
+        void init(const std::string& title, int width, int height, int scale = 1, bool useIntegerScaling = true);
         void run();
 
         void setScene(Scene* scene);
@@ -21,6 +21,8 @@ namespace pixanv {
         bool isKeyPressed(int key);
 
         RenderTarget& getCanvas() { return canvas; };
+        void setIntegerScaling(bool useIntegerScaling);
+        bool getIntegerScaling() const { return integerScaling; }
 
         App(const App&) = delete;
         App& operator=(const App&) = delete;
@@ -30,9 +32,12 @@ namespace pixanv {
         bool isInitComplete;
         int frameWidth;
         int frameHeight;
+        int windowWidth;
+        int windowHeight;
         Scene* dummyScene;
         Scene* currentScene;
         RenderTarget canvas;
+        bool integerScaling;
 
         SDL_Window* window;
         SDL_GLContext context;
