@@ -56,6 +56,8 @@ void initOpenGL(int width, int height) {
     glUseProgram(program);
     glUniform1i(tex_loc, 0);
     shadersScale(scale, 1.0f, 1.0f, 0.0f, 0.0f);
+
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
 void resizeOpenGL(int width, int height) {

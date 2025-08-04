@@ -17,9 +17,6 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    ImageBuffer test_buffer(34, 45);
-    SDL_Log("Buffer pixel %d %d\n", test_buffer.pixel(5, 1), (-20) % 10);
-
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
@@ -46,13 +43,11 @@ int main(int argc, char* argv[]) {
     }
     resizeOpenGL(FRAME_WIDTH, FRAME_HEIGHT);
 
-    std::vector<Color> frame(FRAME_WIDTH * FRAME_HEIGHT);
-
-    for (int y = 0;y < FRAME_HEIGHT;y++) {
+    /*for (int y = 0;y < FRAME_HEIGHT;y++) {
         for (int x = 0;x < FRAME_WIDTH;x++) {
             frame[x + y * FRAME_WIDTH] = x == y ? Color(31, 0, 0) : Color(0, 0, 0);//Color(y * 31 / FRAME_HEIGHT, x * 63 / FRAME_WIDTH, 16);
         }
-    }
+    }*/
 
     bool quit = false;
     SDL_Event e;
@@ -76,7 +71,7 @@ int main(int argc, char* argv[]) {
         glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        presentOpenGL(frame.data());
+        //presentOpenGL(frame.data());
 
         SDL_GL_SwapWindow(window);
         SDL_Delay(1);
