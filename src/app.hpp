@@ -1,7 +1,7 @@
-#include "rendertarget.hpp"
 #include <string>
 #include <SDL3/SDL.h>
-#include <SDL3/SDL_main.h>
+//#include <SDL3/SDL_main.h>
+#include "rendertarget.hpp"
 
 namespace pixanv {
     class Scene;
@@ -37,23 +37,26 @@ namespace pixanv {
         SDL_Window* window;
         SDL_GLContext context;
         const bool* keyboardState;
+
+        void initWindow(const std::string& title, int width, int height, int scale);
     };
 
     class Scene {
+    public:
         Scene() :app{ App::getInstance() }, gfx{ app.getCanvas() } {}
 
-        void onLoad() { isLoaded = true; }
-        void onUnload() { isLoaded = false; }
+        virtual void onLoad() { isLoaded = true; }
+        virtual void onUnload() { isLoaded = false; }
 
-        void onUpdate() {}
-        void onDraw() {}
+        virtual void onUpdate() {}
+        virtual void onDraw() {}
 
-        void onKeyDown(int key) {}
-        void onKeyUp(int key) {}
+        virtual void onKeyDown(int key) {}
+        virtual void onKeyUp(int key) {}
 
-        void onMouseMove(int x, int y, int dx, int dy) {}
-        void onMouseDown(int button) {}
-        void onMouseUp(int button) {}
+        virtual void onMouseMove(int x, int y, int dx, int dy) {}
+        virtual void onMouseDown(int button) {}
+        virtual void onMouseUp(int button) {}
     protected:
         bool isLoaded = false;
         App& app;

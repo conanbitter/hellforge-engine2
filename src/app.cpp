@@ -7,7 +7,7 @@
 using namespace pixanv;
 using namespace std::string_literals;
 
-static void initSDL(const std::string& title, int width, int height, int scale) {
+void App::initWindow(const std::string& title, int width, int height, int scale) {
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         throw std::runtime_error("SDL could not initialize! SDL_Error: "s + std::string(SDL_GetError()));
     }
@@ -17,7 +17,7 @@ static void initSDL(const std::string& title, int width, int height, int scale) 
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
-    SDL_Window* window = SDL_CreateWindow(title.c_str(),
+    window = SDL_CreateWindow(title.c_str(),
         width * scale,
         height * scale,
         SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
@@ -27,7 +27,7 @@ static void initSDL(const std::string& title, int width, int height, int scale) 
     SDL_SetWindowMinimumSize(window, width, height);
     SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 
-    SDL_GLContext context = SDL_GL_CreateContext(window);
+    context = SDL_GL_CreateContext(window);
     int version = gladLoadGL((GLADloadfunc)SDL_GL_GetProcAddress);
     SDL_Log("Using OpenGL %d.%d\n", GLAD_VERSION_MAJOR(version), GLAD_VERSION_MINOR(version));
 }
@@ -38,7 +38,8 @@ App& App::getInstance() {
 }
 
 void App::init(const std::string& title, int width, int height, int scale) {
-    initSDL(title, width, height, scale);
+    if (isInitComplete) return;
+    initWindow(title, width, height, scale);
     keyboardState = SDL_GetKeyboardState(nullptr);
     initOpenGL(width, height);
     resizeOpenGL(width * scale, height * scale);
@@ -55,6 +56,7 @@ void App::init(const std::string& title, int width, int height, int scale) {
 }
 
 void App::run() {
+    if (!isInitComplete) return;
     SDL_Event event;
     isRunning = true;
     if (!currentScene->isLoaded) currentScene->onLoad();
