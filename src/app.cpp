@@ -45,6 +45,12 @@ void App::init(const std::string& title, int width, int height, int scale) {
     frameWidth = width;
     frameHeight = height;
     canvas.resize(width, height);
+
+    if (currentScene == nullptr) {
+        dummyScene = new Scene();
+        currentScene = dummyScene;
+    }
+
     isInitComplete = true;
 }
 
@@ -82,6 +88,8 @@ void App::run() {
 }
 
 App::~App() {
+    if (dummyScene) delete dummyScene;
+
     freeOpenGL();
 
     if (context) SDL_GL_DestroyContext(context);
