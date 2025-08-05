@@ -24,6 +24,8 @@ add_executable(hellforge
     src/imagebuffer.cpp
     src/rendertarget.hpp
     src/rendertarget.cpp
+    src/scaling.hpp
+    src/scaling.cpp
     vendored/glad/src/gl.c
 )
 

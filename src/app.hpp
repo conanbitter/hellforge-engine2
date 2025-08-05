@@ -2,6 +2,7 @@
 #include <SDL3/SDL.h>
 //#include <SDL3/SDL_main.h>
 #include "rendertarget.hpp"
+#include "scaling.hpp"
 
 namespace pixanv {
     class Scene;
@@ -50,8 +51,10 @@ namespace pixanv {
         SDL_Window* window;
         SDL_GLContext context;
         const bool* keyboardState;
+        util::ViewBox view;
 
         void initWindow(const std::string& title, int width, int height, int scale);
+        void resize(int newWidth, int newHeight);
     };
 
     class Scene {

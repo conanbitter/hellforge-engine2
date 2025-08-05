@@ -4,6 +4,8 @@
 #include "shaders.hpp"
 #include <algorithm>
 
+using namespace pixanv;
+
 static const float quad[6][4] = {
     {-1.0f, -1.0f, 0.0f, 1.0f},
     {-1.0f, 1.0f, 0.0f, 0.0f},
@@ -22,13 +24,9 @@ static GLsizei frameHeight;
 static GLint scale;
 static float frameAR;
 
-static int viewWidth;
-static int viewHeight;
-static int viewOffsetX;
-static int viewOffsetY;
 
 
-void initOpenGL(int width, int height) {
+void pixanv::initOpenGL(int width, int height) {
     GLint vert_loc, vertUV_loc, tex_loc;
     program = initShaders(vert_loc, vertUV_loc, tex_loc, scale);
 
@@ -64,52 +62,17 @@ void initOpenGL(int width, int height) {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
-void resizeOpenGL(int width, int height, bool integerScaling) {
+void pixanv::resizeOpenGL(int width, int height, const util::ScaleData& scaleData) {
     glViewport(0, 0, width, height);
-    if (width % frameWidth == 0 && height % frameHeight == 0) {
-        shadersScale(scale, 1.0f, 1.0f, 0.0f, 0.0f);
-        viewWidth = width;
-        viewHeight = height;
-        viewOffsetX = 0;
-        viewOffsetY = 0;
-    } else if (integerScaling) {
-        int iscale = std::min(width / frameWidth, height / frameHeight);
-        bool xoffset = (width - frameWidth * iscale) % 2 != 0;
-        bool yoffset = (height - frameHeight * iscale) % 2 != 0;
-        shadersScale(
-            scale,
-            (float)(frameWidth * iscale) / (float)width,
-            (float)(frameHeight * iscale) / (float)height,
-            xoffset ? -1.0f / (float)width : 0.0f,
-            yoffset ? -1.0f / (float)height : 0.0f);
-        viewWidth = frameWidth * iscale;
-        viewHeight = frameHeight * iscale;
-        viewOffsetX = (width - viewWidth) / 2;
-        viewOffsetY = (height - viewHeight) / 2;
-    } else {
-        float windowAR = (float)width / (float)height;
-        if (frameAR < windowAR) {
-            viewHeight = height;
-            viewWidth = (float)height * frameAR;
-            viewOffsetX = (width - viewWidth) / 2;
-            viewOffsetY = 0;
-            shadersScale(scale, frameAR / windowAR, 1.0f, 0.0f, 0.0f);
-        } else {
-            viewWidth = width;
-            viewHeight = (float)width / frameAR;
-            viewOffsetX = 0;
-            viewOffsetY = (height - viewHeight) / 2;
-            shadersScale(scale, 1.0f, windowAR / frameAR, 0.0f, 0.0f);
-        }
-    }
+    shadersScale(
+        scale,
+        scaleData.scaleX,
+        scaleData.scaleY,
+        scaleData.offsetX,
+        scaleData.offsetY);
 }
 
-void screenToFrame(int screenX, int screenY, int& frameX, int& frameY) {
-    frameX = (screenX - viewOffsetX) * frameWidth / viewWidth;
-    frameY = (screenY - viewOffsetY) * frameHeight / viewHeight;
-}
-
-void freeOpenGL() {
+void pixanv::freeOpenGL() {
     if (glIsTexture(frameTexture)) {
         glDeleteTextures(1, &frameTexture);
     }
@@ -124,9 +87,9 @@ void freeOpenGL() {
     }
 }
 
-void presentOpenGL(const void* data) {
+void pixanv::presentOpenGL(const RenderTarget& rt) {
     glBindTexture(GL_TEXTURE_2D, frameTexture);
-    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth, frameHeight, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, data);
+    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, rt.width(), rt.height(), GL_RGB, GL_UNSIGNED_SHORT_5_6_5, rt.data());
     glUseProgram(program);
     glBindVertexArray(vao);
     glDrawArrays(GL_TRIANGLES, 0, 6);

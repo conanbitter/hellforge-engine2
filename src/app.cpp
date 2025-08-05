@@ -37,16 +37,32 @@ App& App::getInstance() {
     return theInstance;
 }
 
+void App::resize(int newWidth, int newHeight) {
+    windowWidth = newWidth;
+    windowHeight = newHeight;
+    util::ScaleData scaleData;
+    util::resizeView(
+        windowWidth,
+        windowHeight,
+        frameWidth,
+        frameHeight,
+        integerScaling,
+        scaleData,
+        view
+    );
+    resizeOpenGL(windowWidth, windowHeight, scaleData);
+}
+
 void App::init(const std::string& title, int width, int height, int scale, bool useIntegerScaling) {
     if (isInitComplete) return;
     integerScaling = useIntegerScaling;
     initWindow(title, width, height, scale);
     keyboardState = SDL_GetKeyboardState(nullptr);
     initOpenGL(width, height);
-    resizeOpenGL(width * scale, height * scale, integerScaling);
     windowWidth = frameWidth = width;
     windowHeight = frameHeight = height;
     canvas.resize(width, height);
+    resize(width * scale, height * scale);
 
     if (currentScene == nullptr) {
         dummyScene = new Scene();
@@ -70,9 +86,7 @@ void App::run() {
                 isRunning = false;
                 break;
             case SDL_EVENT_WINDOW_RESIZED:
-                windowWidth = event.window.data1;
-                windowHeight = event.window.data2;
-                resizeOpenGL(windowWidth, windowHeight, integerScaling);
+                resize(event.window.data1, event.window.data2);
                 break;
             case SDL_EVENT_KEY_DOWN:
                 if (!event.key.repeat) {
@@ -85,7 +99,7 @@ void App::run() {
             case SDL_EVENT_MOUSE_MOTION:
             {
                 int x, y;
-                screenToFrame(event.motion.x, event.motion.y, x, y);
+                view.screenToView(event.motion.x, event.motion.y, x, y);
                 currentScene->onMouseMove(
                     x,
                     y,
@@ -97,7 +111,7 @@ void App::run() {
             case SDL_EVENT_MOUSE_BUTTON_DOWN:
             {
                 int x, y;
-                screenToFrame(event.motion.x, event.motion.y, x, y);
+                view.screenToView(event.motion.x, event.motion.y, x, y);
                 currentScene->onMouseDown(
                     event.button.button,
                     event.button.clicks,
@@ -109,7 +123,7 @@ void App::run() {
             case SDL_EVENT_MOUSE_BUTTON_UP:
             {
                 int x, y;
-                screenToFrame(event.motion.x, event.motion.y, x, y);
+                view.screenToView(event.motion.x, event.motion.y, x, y);
                 currentScene->onMouseUp(
                     event.button.button,
                     event.button.clicks,
@@ -136,7 +150,7 @@ void App::run() {
 
         glClear(GL_COLOR_BUFFER_BIT);
         currentScene->onDraw();
-        presentOpenGL(canvas.m_data.data());
+        presentOpenGL(canvas);
 
         SDL_GL_SwapWindow(window);
         SDL_Delay(5);
@@ -178,7 +192,7 @@ bool App::isKeyPressed(int key) {
 
 void App::setIntegerScaling(bool useIntegerScaling) {
     integerScaling = useIntegerScaling;
-    if (isInitComplete) resizeOpenGL(windowWidth, windowHeight, integerScaling);
+    if (isInitComplete) resize(windowWidth, windowHeight);
 }
 
 void App::setScale(int scale) {

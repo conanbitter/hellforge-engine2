@@ -13,6 +13,7 @@ public:
     int actionKey;
     int mx = 0;
     int my = 0;
+    const pixanv::Color bgColor = pixanv::Color(5, 10, 5);
 
     void onLoad() override {
         /*for (int y = 0;y < FRAME_HEIGHT;y++) {
@@ -20,9 +21,9 @@ public:
                 gfx.pixel(x, y, x == y ? pixanv::Color(31, 0, 0) : pixanv::Color(0, 0, 0));
             }
         }*/
-        gfx.fill(pixanv::Color::BLACK);
+        gfx.fill(bgColor);
         actionKey = app.registerKey("D");
-        app.setCursorVisible(false);
+        //app.setCursorVisible(false);
     }
 
     void onKeyDown(int key) override {
@@ -35,7 +36,7 @@ public:
     void onMouseMove(int x, int y, int dx, int dy) {
         //mx += dx;
         //my += dy;
-        gfx.fill(pixanv::Color::BLACK);
+        gfx.fill(bgColor);
         //if (app.isMouseButtonPressed(1)) {
         gfx.pixel(x, y, pixanv::Color::RED);
         //}
