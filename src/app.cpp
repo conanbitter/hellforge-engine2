@@ -190,3 +190,30 @@ void App::setScale(int scale) {
     SDL_SetWindowSize(window, windowWidth, windowHeight);
     SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 }
+
+void App::setCursorVisible(bool visible) {
+    if (visible) {
+        SDL_ShowCursor();
+    } else {
+        SDL_HideCursor();
+    }
+}
+
+bool App::getCursorVisible() {
+    return SDL_CursorVisible();
+}
+
+void App::setCursorFixed(bool fixed) {
+    SDL_SetWindowRelativeMouseMode(window, fixed);
+}
+
+void App::getMousePos(int& x, int& y) {
+    float fx, fy;
+    SDL_GetMouseState(&fx, &fy);
+    x = fx;
+    y = fy;
+}
+
+bool App::isMouseButtonPressed(int button) {
+    return SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON_MASK(button);
+}

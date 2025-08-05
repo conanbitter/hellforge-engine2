@@ -26,6 +26,12 @@ namespace pixanv {
         bool getIntegerScaling() const { return integerScaling; }
         void setScale(int scale);
 
+        void setCursorVisible(bool visible);
+        bool getCursorVisible();
+        void setCursorFixed(bool fixed);
+        void getMousePos(int& x, int& y);
+        bool isMouseButtonPressed(int button);
+
         App(const App&) = delete;
         App& operator=(const App&) = delete;
 

@@ -11,15 +11,16 @@ public:
     TestScene() {};
 
     int actionKey;
-    int x = 0;
-    int y = 0;
+    int mx = 0;
+    int my = 0;
 
     void onLoad() override {
-        for (int y = 0;y < FRAME_HEIGHT;y++) {
+        /*for (int y = 0;y < FRAME_HEIGHT;y++) {
             for (int x = 0;x < FRAME_WIDTH;x++) {
                 gfx.pixel(x, y, x == y ? pixanv::Color(31, 0, 0) : pixanv::Color(0, 0, 0));
             }
-        }
+        }*/
+        gfx.fill(pixanv::Color::BLACK);
         actionKey = app.registerKey("D");
     }
 
@@ -31,12 +32,16 @@ public:
     }
 
     void onMouseMove(int x, int y, int dx, int dy) {
-        gfx.fill(pixanv::Color::BLACK);
-        gfx.pixel(x, y, pixanv::Color::RED);
-        gfx.pixel(x + 1, y, pixanv::Color::RED);
-        gfx.pixel(x - 1, y, pixanv::Color::RED);
-        gfx.pixel(x, y + 1, pixanv::Color::RED);
-        gfx.pixel(x, y - 1, pixanv::Color::RED);
+        //mx += dx;
+        //my += dy;
+        //gfx.fill(pixanv::Color::BLACK);
+        if (app.isMouseButtonPressed(1)) {
+            gfx.pixel(x, y, pixanv::Color::RED);
+        }
+        /*gfx.pixel(x + 1, y, pixanv::Color::RED);
+    gfx.pixel(x - 1, y, pixanv::Color::RED);
+    gfx.pixel(x, y + 1, pixanv::Color::RED);
+    gfx.pixel(x, y - 1, pixanv::Color::RED);*/
     }
 };
 
