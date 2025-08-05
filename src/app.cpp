@@ -50,7 +50,7 @@ void App::resize(int newWidth, int newHeight) {
         scaleData,
         view
     );
-    resizeOpenGL(windowWidth, windowHeight, scaleData);
+    OpenGL::resize(windowWidth, windowHeight, scaleData);
 }
 
 void App::init(const std::string& title, int width, int height, int scale, bool useIntegerScaling) {
@@ -58,7 +58,7 @@ void App::init(const std::string& title, int width, int height, int scale, bool 
     integerScaling = useIntegerScaling;
     initWindow(title, width, height, scale);
     keyboardState = SDL_GetKeyboardState(nullptr);
-    initOpenGL(width, height);
+    OpenGL::init(width, height);
     windowWidth = frameWidth = width;
     windowHeight = frameHeight = height;
     canvas.resize(width, height);
@@ -150,7 +150,7 @@ void App::run() {
 
         glClear(GL_COLOR_BUFFER_BIT);
         currentScene->onDraw();
-        presentOpenGL(canvas);
+        OpenGL::present(canvas);
 
         SDL_GL_SwapWindow(window);
         SDL_Delay(5);
@@ -160,7 +160,7 @@ void App::run() {
 App::~App() {
     if (dummyScene) delete dummyScene;
 
-    freeOpenGL();
+    OpenGL::free();
 
     if (context) SDL_GL_DestroyContext(context);
     if (window) SDL_DestroyWindow(window);
