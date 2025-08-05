@@ -22,6 +22,7 @@ public:
         }*/
         gfx.fill(pixanv::Color::BLACK);
         actionKey = app.registerKey("D");
+        app.setCursorVisible(false);
     }
 
     void onKeyDown(int key) override {
@@ -34,10 +35,10 @@ public:
     void onMouseMove(int x, int y, int dx, int dy) {
         //mx += dx;
         //my += dy;
-        //gfx.fill(pixanv::Color::BLACK);
-        if (app.isMouseButtonPressed(1)) {
-            gfx.pixel(x, y, pixanv::Color::RED);
-        }
+        gfx.fill(pixanv::Color::BLACK);
+        //if (app.isMouseButtonPressed(1)) {
+        gfx.pixel(x, y, pixanv::Color::RED);
+        //}
         /*gfx.pixel(x + 1, y, pixanv::Color::RED);
     gfx.pixel(x - 1, y, pixanv::Color::RED);
     gfx.pixel(x, y + 1, pixanv::Color::RED);
