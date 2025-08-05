@@ -14,3 +14,7 @@ Color ImageBuffer::pixel(int x, int y) const {
     if (y < 0)y += m_height;
     return m_data[x + y * m_width];
 }
+
+void ImageBuffer::fill(Color color) {
+    std::fill(m_data.begin(), m_data.end(), color);
+}

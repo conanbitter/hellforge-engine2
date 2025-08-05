@@ -10,6 +10,7 @@ namespace pixanv {
 
         void pixel(int x, int y, Color color);
         Color pixel(int x, int y) const;
+        void fill(Color color);
 
         int width() const { return m_width; };
         int height() const { return m_height; };
