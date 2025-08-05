@@ -82,6 +82,47 @@ void App::run() {
             case SDL_EVENT_KEY_UP:
                 currentScene->onKeyUp(event.key.scancode);
                 break;
+            case SDL_EVENT_MOUSE_MOTION:
+            {
+                currentScene->onMouseMove(
+                    event.motion.x,
+                    event.motion.y,
+                    event.motion.xrel,
+                    event.motion.yrel
+                );
+            }
+            break;
+            case SDL_EVENT_MOUSE_BUTTON_DOWN:
+            {
+                currentScene->onMouseDown(
+                    event.button.button,
+                    event.button.clicks,
+                    event.button.x,
+                    event.button.y
+                );
+            }
+            break;
+            case SDL_EVENT_MOUSE_BUTTON_UP:
+            {
+                currentScene->onMouseUp(
+                    event.button.button,
+                    event.button.clicks,
+                    event.button.x,
+                    event.button.y
+                );
+            }
+            break;
+            case SDL_EVENT_MOUSE_WHEEL:
+            {
+                int x = event.wheel.integer_x;
+                int y = event.wheel.integer_y;
+                if (event.wheel.direction == SDL_MOUSEWHEEL_FLIPPED) {
+                    x *= -1;
+                    y *= -1;
+                }
+                currentScene->onMouseWheel(x, y);
+            }
+            break;
             }
         }
 

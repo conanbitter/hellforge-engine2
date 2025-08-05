@@ -62,8 +62,9 @@ namespace pixanv {
         virtual void onKeyUp(int key) {}
 
         virtual void onMouseMove(int x, int y, int dx, int dy) {}
-        virtual void onMouseDown(int button) {}
-        virtual void onMouseUp(int button) {}
+        virtual void onMouseDown(int button, int repeats, int x, int y) {}
+        virtual void onMouseUp(int button, int repeats, int x, int y) {}
+        virtual void onMouseWheel(int x, int y) {}
     protected:
         bool isLoaded = false;
         App& app;
