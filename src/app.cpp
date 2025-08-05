@@ -84,9 +84,11 @@ void App::run() {
                 break;
             case SDL_EVENT_MOUSE_MOTION:
             {
+                int x, y;
+                screenToFrame(event.motion.x, event.motion.y, x, y);
                 currentScene->onMouseMove(
-                    event.motion.x,
-                    event.motion.y,
+                    x,
+                    y,
                     event.motion.xrel,
                     event.motion.yrel
                 );
@@ -94,21 +96,25 @@ void App::run() {
             break;
             case SDL_EVENT_MOUSE_BUTTON_DOWN:
             {
+                int x, y;
+                screenToFrame(event.motion.x, event.motion.y, x, y);
                 currentScene->onMouseDown(
                     event.button.button,
                     event.button.clicks,
-                    event.button.x,
-                    event.button.y
+                    x,
+                    y
                 );
             }
             break;
             case SDL_EVENT_MOUSE_BUTTON_UP:
             {
+                int x, y;
+                screenToFrame(event.motion.x, event.motion.y, x, y);
                 currentScene->onMouseUp(
                     event.button.button,
                     event.button.clicks,
-                    event.button.x,
-                    event.button.y
+                    x,
+                    y
                 );
             }
             break;

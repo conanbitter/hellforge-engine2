@@ -11,6 +11,8 @@ public:
     TestScene() {};
 
     int actionKey;
+    int x = 0;
+    int y = 0;
 
     void onLoad() override {
         for (int y = 0;y < FRAME_HEIGHT;y++) {
@@ -23,9 +25,18 @@ public:
 
     void onKeyDown(int key) override {
         if (key == actionKey) {
-            //app.setIntegerScaling(!app.getIntegerScaling());
-            app.setScale(3);
+            app.setIntegerScaling(!app.getIntegerScaling());
+            //app.setScale(3);
         }
+    }
+
+    void onMouseMove(int x, int y, int dx, int dy) {
+        gfx.fill(pixanv::Color::BLACK);
+        gfx.pixel(x, y, pixanv::Color::RED);
+        gfx.pixel(x + 1, y, pixanv::Color::RED);
+        gfx.pixel(x - 1, y, pixanv::Color::RED);
+        gfx.pixel(x, y + 1, pixanv::Color::RED);
+        gfx.pixel(x, y - 1, pixanv::Color::RED);
     }
 };
 
