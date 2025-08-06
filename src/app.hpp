@@ -1,3 +1,5 @@
+#pragma once
+
 #include <string>
 #include <SDL3/SDL.h>
 //#include <SDL3/SDL_main.h>
@@ -35,6 +37,8 @@ namespace pixanv {
 
         App(const App&) = delete;
         App& operator=(const App&) = delete;
+
+        static void showErrorMessage(const std::string& message);
 
     private:
         bool isRunning;

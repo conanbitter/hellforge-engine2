@@ -21,6 +21,8 @@ namespace pixanv {
         static const Color CYAN;
         static const Color MAGENTA;
         static const Color YELLOW;
+
+        bool operator==(const Color& rhs)const { return value == rhs.value; }
     private:
         uint16_t value;
     };

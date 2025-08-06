@@ -1,10 +1,11 @@
 #pragma once
 #include "imagebuffer.hpp"
+#include "texture.hpp"
 
 namespace pixanv {
     class RenderTarget :public ImageBuffer {
     public:
-        //void blit(const Texture& tex, int x, int y);
+        void blit(const Texture& tex, int x, int y);
         void blit(const ImageBuffer& src, int x, int y);
         //void blit(const Sprite& sprite);
         //void print(int x, int y, const std::string& text, const Font& font);

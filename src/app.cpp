@@ -231,3 +231,7 @@ void App::getMousePos(int& x, int& y) {
 bool App::isMouseButtonPressed(int button) {
     return SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON_MASK(button);
 }
+
+void App::showErrorMessage(const std::string& message) {
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", message.c_str(), nullptr);
+}

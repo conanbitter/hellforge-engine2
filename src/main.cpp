@@ -1,5 +1,7 @@
 #include "app.hpp"
 #include <string>
+#include "texture.hpp"
+#include "resources.hpp"
 using namespace std::string_literals;
 
 const int FRAME_WIDTH = 480;
@@ -14,6 +16,7 @@ public:
     int mx = 0;
     int my = 0;
     const pixanv::Color bgColor = pixanv::Color(5, 10, 5);
+    pixanv::Texture tex;
 
     void onLoad() override {
         /*for (int y = 0;y < FRAME_HEIGHT;y++) {
@@ -23,6 +26,7 @@ public:
         }*/
         gfx.fill(bgColor);
         actionKey = app.registerKey("D");
+        tex = pixanv::Resources::loadTexture("../../assets/transp1.tex");
         //app.setCursorVisible(false);
     }
 
@@ -33,12 +37,20 @@ public:
         }
     }
 
-    void onMouseMove(int x, int y, int dx, int dy) {
+    void onDraw()override {
+        gfx.fill(bgColor);
+        gfx.blit(tex, 5, 5);
+        gfx.pixel(mx, my, pixanv::Color::RED);
+    }
+
+    void onMouseMove(int x, int y, int dx, int dy)override {
         //mx += dx;
         //my += dy;
-        gfx.fill(bgColor);
+        mx = x;
+        my = y;
+        //gfx.fill(bgColor);
         //if (app.isMouseButtonPressed(1)) {
-        gfx.pixel(x, y, pixanv::Color::RED);
+        //gfx.pixel(x, y, pixanv::Color::RED);
         //}
         /*gfx.pixel(x + 1, y, pixanv::Color::RED);
     gfx.pixel(x - 1, y, pixanv::Color::RED);
@@ -50,13 +62,21 @@ public:
 
 
 int main(int argc, char* argv[]) {
-    pixanv::App& app = pixanv::App::getInstance();
-    app.init("Hellforge"s, FRAME_WIDTH, FRAME_HEIGHT, 2);
+    try {
+        pixanv::App& app = pixanv::App::getInstance();
+        app.init("Hellforge"s, FRAME_WIDTH, FRAME_HEIGHT, 2);
 
-    TestScene scene;
-    app.setScene(&scene);
+        TestScene scene;
+        app.setScene(&scene);
 
-    app.run();
+        app.run();
+    }
+    catch (const std::exception& e) {
+        pixanv::App::showErrorMessage(e.what());
+    }
+    catch (...) {
+        pixanv::App::showErrorMessage("Unknown error");
+    }
 
     return 0;
 }

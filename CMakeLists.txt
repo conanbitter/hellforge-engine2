@@ -26,6 +26,10 @@ add_executable(hellforge
     src/rendertarget.cpp
     src/scaling.hpp
     src/scaling.cpp
+    src/texture.hpp
+    src/texture.cpp
+    src/resources.hpp
+    src/resources.cpp
     vendored/glad/src/gl.c
 )
 
