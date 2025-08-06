@@ -22,7 +22,7 @@ GLint pixanv::OpenGL::scaleUniform = 0;
 
 void pixanv::OpenGL::init(int width, int height) {
     GLint vert_loc, vertUV_loc, tex_loc;
-    program = initShaders(vert_loc, vertUV_loc, tex_loc, scaleUniform);
+    program = shaders::init(vert_loc, vertUV_loc, tex_loc, scaleUniform);
 
     glDisable(GL_BLEND);
     glDisable(GL_DEPTH_TEST);
@@ -47,14 +47,14 @@ void pixanv::OpenGL::init(int width, int height) {
 
     glUseProgram(program);
     glUniform1i(tex_loc, 0);
-    shadersScale(scaleUniform, 1.0f, 1.0f, 0.0f, 0.0f);
+    shaders::scale(scaleUniform, 1.0f, 1.0f, 0.0f, 0.0f);
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
 void pixanv::OpenGL::resize(int width, int height, const util::ScaleData& scaleData) {
     glViewport(0, 0, width, height);
-    shadersScale(
+    shaders::scale(
         scaleUniform,
         scaleData.scaleX,
         scaleData.scaleY,

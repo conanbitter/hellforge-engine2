@@ -119,7 +119,7 @@ static GLuint compileShaderProgram(const char* vertexShaderCode, const char* fra
     return program;
 };
 
-GLuint initShaders(GLint& vertex_pos, GLint& vertex_uv, GLint& texture, GLint& scale) {
+GLuint pixanv::shaders::init(GLint& vertex_pos, GLint& vertex_uv, GLint& texture, GLint& scale) {
     GLuint program = compileShaderProgram(vertexShaderCode, fragmentShaderCode);
     vertex_pos = glGetAttribLocation(program, "vert");
     vertex_uv = glGetAttribLocation(program, "vertUV");
@@ -128,6 +128,6 @@ GLuint initShaders(GLint& vertex_pos, GLint& vertex_uv, GLint& texture, GLint& s
     return program;
 }
 
-void shadersScale(GLint param, float x, float y, float xoffset, float yoffset) {
+void pixanv::shaders::scale(GLint param, float x, float y, float xoffset, float yoffset) {
     glUniform4f(param, x, y, xoffset, yoffset);
 }
