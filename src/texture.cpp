@@ -2,5 +2,5 @@
 
 bool pixanv::Texture::isTransparent(int x, int y)
 {
-    return pixel(x, y) == m_transparentColor;
+    return m_hasTransparency && pixel(x, y) == m_transparentColor;
 }
