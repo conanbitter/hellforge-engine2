@@ -22,5 +22,8 @@ namespace pixanv {
         int m_width;
         int m_height;
         vector<Color> m_data;
+
+        void pixelRaw(int x, int y, Color color);
+        Color pixelRaw(int x, int y) const;
     };
 }

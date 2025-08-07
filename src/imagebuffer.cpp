@@ -15,6 +15,14 @@ Color ImageBuffer::pixel(int x, int y) const {
     return m_data[x + y * m_width];
 }
 
+void ImageBuffer::pixelRaw(int x, int y, Color color) {
+    m_data[x + y * m_width] = color;
+}
+
+Color ImageBuffer::pixelRaw(int x, int y) const {
+    return m_data[x + y * m_width];
+}
+
 void ImageBuffer::fill(Color color) {
     std::fill(m_data.begin(), m_data.end(), color);
 }
