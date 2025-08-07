@@ -2,23 +2,20 @@
 
 using namespace pixanv;
 
-void RenderTarget::blit(const ImageBuffer& src, int x, int y) {
-}
-
 void RenderTarget::blit(const Texture& tex, int x, int y) {
     if (tex.hasTransparency()) {
         for (int py = 0;py < tex.height();py++) {
             for (int px = 0;px < tex.width();px++) {
                 Color color = tex.pixel(px, py);
                 if (color != tex.getTransparentColor()) {
-                    pixel(px + x, py + y, color);
+                    pixelRaw(px + x, py + y, color);
                 }
             }
         }
     } else {
         for (int py = 0;py < tex.height();py++) {
             for (int px = 0;px < tex.width();px++) {
-                pixel(px + x, py + y, tex.pixel(px, py));
+                pixelRaw(px + x, py + y, tex.pixel(px, py));
             }
         }
     }

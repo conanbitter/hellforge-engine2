@@ -12,9 +12,17 @@ class TestScene :public pixanv::Scene
 public:
     TestScene() {};
 
-    int actionKey;
+    int keyAction;
     int mx = 0;
     int my = 0;
+    int px = 5;
+    int py = 5;
+
+    int keyUp;
+    int keyDown;
+    int keyLeft;
+    int keyRight;
+
     const pixanv::Color bgColor = pixanv::Color(5, 10, 5);
     pixanv::Texture tex;
 
@@ -25,21 +33,33 @@ public:
             }
         }*/
         gfx.fill(bgColor);
-        actionKey = app.registerKey("D");
-        tex = pixanv::Resources::loadTexture("../../assets/transp1.tex");
+        keyAction = app.registerKey("D");
+        keyLeft = app.registerKey("Left");
+        keyRight = app.registerKey("Right");
+        keyUp = app.registerKey("Up");
+        keyDown = app.registerKey("Down");
+        tex = pixanv::Resources::loadTexture("../../assets/calib.tex");
         //app.setCursorVisible(false);
     }
 
     void onKeyDown(int key) override {
-        if (key == actionKey) {
+        if (key == keyAction) {
             app.setIntegerScaling(!app.getIntegerScaling());
             //app.setScale(3);
+        } else if (key == keyLeft) {
+            px--;
+        } else if (key == keyRight) {
+            px++;
+        } else if (key == keyUp) {
+            py--;
+        } else if (key == keyDown) {
+            py++;
         }
     }
 
     void onDraw()override {
         gfx.fill(bgColor);
-        gfx.blit(tex, 5, 5);
+        gfx.blit(tex, px, py);
         gfx.pixel(mx, my, pixanv::Color::RED);
     }
 
