@@ -18,7 +18,7 @@ namespace pixanv {
 
         int width() const { return m_width; };
         int height() const { return m_height; };
-        bool cropRect(Rect& rect);
+        bool cropRect(Rect& rect, Rect& secondary);
 
     protected:
         ImageBuffer() :m_width(0), m_height(0), m_data(0) {};
