@@ -39,7 +39,7 @@ public:
         keyRight = app.registerKey("Right");
         keyUp = app.registerKey("Up");
         keyDown = app.registerKey("Down");
-        tex = pixanv::Resources::loadTexture("../../assets/transp1.tex");
+        tex = pixanv::Resources::loadTexture("../../assets/testex2.tex");
         //app.setCursorVisible(false);
     }
 
@@ -64,7 +64,7 @@ public:
         test2.right = 31;
         test2.bottom = 31;
         gfx.fill(bgColor);
-        gfx.blit(tex, test2, test);
+        gfx.blit(tex, test2, test, pixanv::Color(31, 50, 20));
         gfx.pixel(mx, my, pixanv::Color::RED);
     }
 

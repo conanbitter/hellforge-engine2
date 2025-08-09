@@ -22,6 +22,17 @@ int Color::b() const
     return value & 0b11111;
 }
 
+Color pixanv::Color::operator*(const Color& rhs) const
+{
+    return Color(
+        (r() * rhs.r()) / 31,
+        (g() * rhs.g()) / 63,
+        (b() * rhs.b()) / 31
+    );
+}
+
+
+
 const Color Color::BLACK = Color(0, 0, 0);
 const Color Color::WHITE = Color(31, 63, 31);
 const Color Color::RED = Color(31, 0, 0);

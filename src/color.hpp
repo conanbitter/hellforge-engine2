@@ -23,6 +23,7 @@ namespace pixanv {
         static const Color YELLOW;
 
         bool operator==(const Color& rhs)const { return value == rhs.value; }
+        Color operator*(const Color& rhs)const;
     private:
         uint16_t value;
     };
