@@ -2,14 +2,25 @@
 
 using namespace pixanv;
 
-void RenderTarget::blit(const Texture& tex, int x, int y) {
-    Rect outrect{ .left = x,.right = x + tex.width() - 1,.top = y,.bottom = y + tex.height() - 1 };
-    if (outrect.left < 0) outrect.left = 0;
-    if (outrect.right >= m_width) outrect.right = m_width - 1;
-    if (outrect.top < 0)outrect.top = 0;
-    if (outrect.bottom >= m_height)outrect.bottom = m_height - 1;
+void RenderTarget::blitCopy(const Texture& src, int x, int y, const Rect& srcRect) {
+    Rect dstRect(x, y, srcRect.width(), srcRect.height());
+    if (!cropRect(dstRect)) return;
+    int offsetX = srcRect.left - x + dstRect.left;
+    int offsetY = srcRect.top - y;
+    for (int dy = dstRect.top; dy <= dstRect.bottom; dy++) {
+        auto srcStart = src.m_data.begin() + offsetX + (dy + offsetY) * src.m_width;
+        auto srcEnd = srcStart + dstRect.width();
+        auto dstStart = m_data.begin() + dstRect.left + dy * m_width;
+        std::copy(srcStart, srcEnd, dstStart);
+    }
+}
 
-    if (outrect.getWidth() <= 0 || outrect.getHeight() <= 0) return;
+void RenderTarget::blit(const Texture& tex, int x, int y) {
+    Rect srcRect(tex);
+    blitCopy(tex, x, y, srcRect);
+    /*Rect outrect(x, y, tex.width(), tex.height());
+
+    if (!cropRect(outrect)) return;
 
     if (tex.hasTransparency()) {
         for (int py = outrect.top;py <= outrect.bottom;py++) {
@@ -26,7 +37,7 @@ void RenderTarget::blit(const Texture& tex, int x, int y) {
                 pixelRaw(px, py, tex.pixel(px - x, py - y));
             }
         }
-    }
+    }*/
 }
 
 void RenderTarget::resize(int width, int height)

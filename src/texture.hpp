@@ -18,6 +18,7 @@ namespace pixanv {
         Color m_transparentColor;
 
         friend class Resources;
+        friend class RenderTarget;
     };
 
 }

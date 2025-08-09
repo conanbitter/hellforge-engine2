@@ -30,6 +30,8 @@ add_executable(hellforge
     src/texture.cpp
     src/resources.hpp
     src/resources.cpp
+    src/rect.hpp
+    src/rect.cpp
     vendored/glad/src/gl.c
 )
 

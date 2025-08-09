@@ -1,4 +1,5 @@
 #include "imagebuffer.hpp"
+#include "rect.hpp"
 
 using namespace pixanv;
 
@@ -25,4 +26,13 @@ Color ImageBuffer::pixelRaw(int x, int y) const {
 
 void ImageBuffer::fill(Color color) {
     std::fill(m_data.begin(), m_data.end(), color);
+}
+
+bool ImageBuffer::cropRect(Rect& rect) {
+    if (rect.left < 0) rect.left = 0;
+    if (rect.right >= m_width) rect.right = m_width - 1;
+    if (rect.top < 0) rect.top = 0;
+    if (rect.bottom >= m_height) rect.bottom = m_height - 1;
+
+    return (rect.right > rect.left) && (rect.bottom > rect.top);
 }

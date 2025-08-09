@@ -6,6 +6,8 @@
 using std::vector;
 
 namespace pixanv {
+    class Rect;
+
     class ImageBuffer {
     public:
         ImageBuffer(int width, int height) :m_width(width), m_height(height), m_data(width* height) {}
@@ -16,6 +18,7 @@ namespace pixanv {
 
         int width() const { return m_width; };
         int height() const { return m_height; };
+        bool cropRect(Rect& rect);
 
     protected:
         ImageBuffer() :m_width(0), m_height(0), m_data(0) {};
