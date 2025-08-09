@@ -17,6 +17,8 @@ namespace pixanv {
         void resize(int width, int height);
         void blitCopy(const Texture& src, int x, int y, const Rect& srcRect);
         void blitCopyTransparent(const Texture& src, int x, int y, const Rect& srcRect);
+        void blitScaled(const Texture& src, const Rect& srcRect, const Rect& dstRect);
+        void blitScaledTransparent(const Texture& src, const Rect& srcRect, const Rect& dstRect);
 
         friend class App;
         friend class OpenGL;

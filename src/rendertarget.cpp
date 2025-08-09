@@ -53,6 +53,66 @@ void RenderTarget::blit(const Texture& src, int x, int y, const Rect& srcRect) {
     }
 }
 
+void RenderTarget::blitScaled(const Texture& src, const Rect& srcRect, const Rect& dstRect) {
+    float kx = (float)srcRect.width() / (float)(dstRect.width() - 1);
+    float bx = (float)srcRect.left - kx * (float)dstRect.left;
+    float ky = (float)srcRect.height() / (float)(dstRect.height() - 1);
+    float by = (float)srcRect.top - ky * (float)dstRect.top;
+
+    Rect dstRectMod(dstRect);
+    cropRect(dstRectMod);
+    Rect srcRectMod(srcRect);
+    src.cropRect(srcRectMod);
+
+    for (int dy = dstRectMod.top; dy <= dstRectMod.bottom; dy++) {
+        for (int dx = dstRectMod.left;dx <= dstRectMod.right;dx++) {
+            int sx = srcRectMod.clipX((float)dx * kx + bx);
+            int sy = srcRectMod.clipY((float)dy * ky + by);
+            pixelRaw(dx, dy, src.pixelRaw(sx, sy));
+        }
+    }
+}
+
+void RenderTarget::blitScaledTransparent(const Texture& src, const Rect& srcRect, const Rect& dstRect) {
+    float kx = (float)srcRect.width() / (float)(dstRect.width() - 1);
+    float bx = (float)srcRect.left - kx * (float)dstRect.left;
+    float ky = (float)srcRect.height() / (float)(dstRect.height() - 1);
+    float by = (float)srcRect.top - ky * (float)dstRect.top;
+
+    Rect dstRectMod(dstRect);
+    cropRect(dstRectMod);
+    Rect srcRectMod(srcRect);
+    src.cropRect(srcRectMod);
+
+    for (int dy = dstRectMod.top; dy <= dstRectMod.bottom; dy++) {
+        for (int dx = dstRectMod.left;dx <= dstRectMod.right;dx++) {
+            int sx = srcRectMod.clipX((float)dx * kx + bx);
+            int sy = srcRectMod.clipY((float)dy * ky + by);
+            Color color = src.pixelRaw(sx, sy);
+            if (color != src.m_transparentColor) {
+                pixelRaw(dx, dy, color);
+            }
+        }
+    }
+}
+
+void RenderTarget::blit(const Texture& src, const Rect& dstRect) {
+    Rect srcRect(src);
+    if (src.hasTransparency()) {
+        blitScaledTransparent(src, srcRect, dstRect);
+    } else {
+        blitScaled(src, srcRect, dstRect);
+    }
+}
+
+void RenderTarget::blit(const Texture& src, const Rect& srcRect, const Rect& dstRect) {
+    if (src.hasTransparency()) {
+        blitScaledTransparent(src, srcRect, dstRect);
+    } else {
+        blitScaled(src, srcRect, dstRect);
+    }
+}
+
 void RenderTarget::resize(int width, int height)
 {
     m_width = width;

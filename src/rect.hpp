@@ -17,5 +17,8 @@ namespace pixanv {
         int y() const { return top; }
         int width() const { return right - left + 1; }
         int height() const { return bottom - top + 1; }
+
+        int clipX(int x) const;
+        int clipY(int y) const;
     };
 }

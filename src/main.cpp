@@ -16,8 +16,8 @@ public:
     int keyAction;
     int mx = 0;
     int my = 0;
-    int px = 455;
-    int py = 245;
+    int px = 0;
+    int py = 0;
 
     int keyUp;
     int keyDown;
@@ -39,7 +39,7 @@ public:
         keyRight = app.registerKey("Right");
         keyUp = app.registerKey("Up");
         keyDown = app.registerKey("Down");
-        tex = pixanv::Resources::loadTexture("../../assets/calib.tex");
+        tex = pixanv::Resources::loadTexture("../../assets/transp1.tex");
         //app.setCursorVisible(false);
     }
 
@@ -59,9 +59,12 @@ public:
     }
 
     void onDraw()override {
-        pixanv::Rect test(2, 2, 20, 20);
+        pixanv::Rect test(5, 5, 64, 64);
+        pixanv::Rect test2(px, py, 32, 32);
+        test2.right = 31;
+        test2.bottom = 31;
         gfx.fill(bgColor);
-        gfx.blit(tex, px, py, test);
+        gfx.blit(tex, test2, test);
         gfx.pixel(mx, my, pixanv::Color::RED);
     }
 
