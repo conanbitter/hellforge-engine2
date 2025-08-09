@@ -2,6 +2,7 @@
 #include <string>
 #include "texture.hpp"
 #include "resources.hpp"
+#include "rect.hpp"
 using namespace std::string_literals;
 
 const int FRAME_WIDTH = 480;
@@ -15,8 +16,8 @@ public:
     int keyAction;
     int mx = 0;
     int my = 0;
-    int px = 5;
-    int py = 5;
+    int px = 455;
+    int py = 245;
 
     int keyUp;
     int keyDown;
@@ -58,8 +59,9 @@ public:
     }
 
     void onDraw()override {
+        pixanv::Rect test(2, 2, 20, 20);
         gfx.fill(bgColor);
-        gfx.blit(tex, px, py);
+        gfx.blit(tex, px, py, test);
         gfx.pixel(mx, my, pixanv::Color::RED);
     }
 

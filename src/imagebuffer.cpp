@@ -28,13 +28,13 @@ void ImageBuffer::fill(Color color) {
     std::fill(m_data.begin(), m_data.end(), color);
 }
 
-bool ImageBuffer::cropRect(Rect& rect, Rect& secondary) {
+bool ImageBuffer::cropRect(Rect& rect, Rect& secondary)const {
     if (rect.left < 0) {
         secondary.left -= rect.left;
         rect.left = 0;
     }
     if (rect.right >= m_width) {
-        secondary.right += rect.right - m_width - 1;
+        secondary.right += m_width - rect.right - 1;
         rect.right = m_width - 1;
     }
     if (rect.top < 0) {
@@ -42,7 +42,7 @@ bool ImageBuffer::cropRect(Rect& rect, Rect& secondary) {
         rect.top = 0;
     }
     if (rect.bottom >= m_height) {
-        secondary.bottom += rect.bottom - m_height - 1;
+        secondary.bottom += m_height - rect.bottom - 1;
         rect.bottom = m_height - 1;
     }
 
