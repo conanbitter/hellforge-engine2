@@ -3,7 +3,7 @@
 
 using namespace pixanv;
 
-void RenderTarget::blitCopy(const Texture& src, int x, int y, const Rect& srcRect) {
+void RenderTarget::blitCopy(const ImageBuffer& src, int x, int y, const Rect& srcRect) {
     Rect dstRect(x, y, srcRect.width(), srcRect.height());
     Rect srcRectMod(srcRect);
 
@@ -18,7 +18,7 @@ void RenderTarget::blitCopy(const Texture& src, int x, int y, const Rect& srcRec
     }
 }
 
-void RenderTarget::blitCopyColor(const Texture& src, int x, int y, const Rect& srcRect, Color color) {
+void RenderTarget::blitCopyColor(const ImageBuffer& src, int x, int y, const Rect& srcRect, Color color) {
     Rect dstRect(x, y, srcRect.width(), srcRect.height());
     Rect srcRectMod(srcRect);
 
@@ -86,13 +86,21 @@ void RenderTarget::blit(const Texture& src, int x, int y, Color color) {
 
 void RenderTarget::blit(const Texture& src, int x, int y, const Rect& srcRect, Color color) {
     if (src.hasTransparency()) {
-        blitCopyTransparent(src, x, y, srcRect);
+        if (color == Color::WHITE) {
+            blitCopyTransparent(src, x, y, srcRect);
+        } else {
+            blitCopyTransparentColor(src, x, y, srcRect, color);
+        }
     } else {
-        blitCopy(src, x, y, srcRect);
+        if (color == Color::WHITE) {
+            blitCopy(src, x, y, srcRect);
+        } else {
+            blitCopyColor(src, x, y, srcRect, color);
+        }
     }
 }
 
-void RenderTarget::blitScaled(const Texture& src, const Rect& srcRect, const Rect& dstRect) {
+void RenderTarget::blitScaled(const ImageBuffer& src, const Rect& srcRect, const Rect& dstRect) {
     float kx = (float)srcRect.width() / (float)(dstRect.width() - 1);
     float bx = (float)srcRect.left - kx * (float)dstRect.left;
     float ky = (float)srcRect.height() / (float)(dstRect.height() - 1);
@@ -112,7 +120,7 @@ void RenderTarget::blitScaled(const Texture& src, const Rect& srcRect, const Rec
     }
 }
 
-void RenderTarget::blitScaledColor(const Texture& src, const Rect& srcRect, const Rect& dstRect, Color color) {
+void RenderTarget::blitScaledColor(const ImageBuffer& src, const Rect& srcRect, const Rect& dstRect, Color color) {
     float kx = (float)srcRect.width() / (float)(dstRect.width() - 1);
     float bx = (float)srcRect.left - kx * (float)dstRect.left;
     float ky = (float)srcRect.height() / (float)(dstRect.height() - 1);
@@ -211,6 +219,42 @@ void RenderTarget::blit(const Texture& src, const Rect& srcRect, const Rect& dst
     }
 }
 
+
+void RenderTarget::blit(const ImageBuffer& src, int x, int y, Color color) {
+    Rect srcRect(src);
+    if (color == Color::WHITE) {
+        blitCopy(src, x, y, srcRect);
+    } else {
+        blitCopyColor(src, x, y, srcRect, color);
+    }
+}
+
+void RenderTarget::blit(const ImageBuffer& src, int x, int y, const Rect& srcRect, Color color) {
+    if (color == Color::WHITE) {
+        blitCopy(src, x, y, srcRect);
+    } else {
+        blitCopyColor(src, x, y, srcRect, color);
+    }
+}
+
+void RenderTarget::blit(const ImageBuffer& src, const Rect& dstRect, Color color) {
+    Rect srcRect(src);
+    if (color == Color::WHITE) {
+        blitScaled(src, srcRect, dstRect);
+    } else {
+        blitScaledColor(src, srcRect, dstRect, color);
+    }
+}
+
+void RenderTarget::blit(const ImageBuffer& src, const Rect& srcRect, const Rect& dstRect, Color color) {
+    if (color == Color::WHITE) {
+        blitScaled(src, srcRect, dstRect);
+    } else {
+        blitScaledColor(src, srcRect, dstRect, color);
+    }
+}
+
+
 void pixanv::RenderTarget::print(const Font& font, int x, int y, const std::string& text, Color color)
 {
     printPosX = x;
@@ -227,6 +271,7 @@ void pixanv::RenderTarget::print(const Font& font, const std::string& text, Colo
         if (printPosX >= m_width) break;
     }
 }
+
 
 void RenderTarget::resize(int width, int height)
 {

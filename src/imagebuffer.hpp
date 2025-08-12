@@ -30,5 +30,7 @@ namespace pixanv {
 
         void pixelRaw(int x, int y, Color color);
         Color pixelRaw(int x, int y) const;
+
+        friend class RenderTarget;
     };
 }
