@@ -211,9 +211,27 @@ void RenderTarget::blit(const Texture& src, const Rect& srcRect, const Rect& dst
     }
 }
 
+void pixanv::RenderTarget::print(const Font& font, int x, int y, const std::string& text, Color color)
+{
+    printPosX = x;
+    printPosY = y;
+    print(font, text, color);
+}
+
+void pixanv::RenderTarget::print(const Font& font, const std::string& text, Color color)
+{
+    for (char c : text) {
+        const Texture& letter = font.getChar(c);
+        blit(letter, printPosX, printPosY, color);
+        printPosX += letter.m_width + font.letterSpace;
+        if (printPosX >= m_width) break;
+    }
+}
+
 void RenderTarget::resize(int width, int height)
 {
     m_width = width;
     m_height = height;
     m_data.resize(width * height);
 }
+

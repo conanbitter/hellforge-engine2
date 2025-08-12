@@ -26,6 +26,7 @@ public:
 
     const pixanv::Color bgColor = pixanv::Color(5, 10, 5);
     pixanv::Texture tex;
+    pixanv::Font font;
 
     void onLoad() override {
         /*for (int y = 0;y < FRAME_HEIGHT;y++) {
@@ -40,6 +41,7 @@ public:
         keyUp = app.registerKey("Up");
         keyDown = app.registerKey("Down");
         tex = pixanv::Resources::loadTexture("../../assets/testex2.tex");
+        font = pixanv::Resources::loadFont("../../assets/main.fon");
         //app.setCursorVisible(false);
     }
 
@@ -64,8 +66,11 @@ public:
         test2.right = 31;
         test2.bottom = 31;
         gfx.fill(bgColor);
-        gfx.blit(tex, test2, test, pixanv::Color(31, 50, 20));
+        gfx.blit(tex, 0, 0, pixanv::Color(31, 50, 20));
         gfx.pixel(mx, my, pixanv::Color::RED);
+        gfx.print(font, 10, 100, "Hello ");
+        gfx.print(font, "World", pixanv::Color::YELLOW);
+        gfx.print(font, "!");
     }
 
     void onMouseMove(int x, int y, int dx, int dy)override {

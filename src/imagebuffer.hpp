@@ -11,6 +11,7 @@ namespace pixanv {
     class ImageBuffer {
     public:
         ImageBuffer(int width, int height) :m_width(width), m_height(height), m_data(width* height) {}
+        bool isEmpty() const { return m_width == 0 || m_height == 0; }
 
         void pixel(int x, int y, Color color);
         Color pixel(int x, int y) const;
