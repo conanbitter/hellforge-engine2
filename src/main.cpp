@@ -93,6 +93,11 @@ public:
         gfx.text.print("World");
         gfx.text.setColor(pixanv::Color::WHITE);
         gfx.text.print("!\nconst pixanv::Color bgColor = pixanv::Color(5, 10, 5); pixanv::Color modColor = pixanv::Color::WHITE * brightness;");
+
+        gfx.text.setXY(10, 150);
+        std::println(gfx.text, "mouse x: {}", mx);
+        std::println(gfx.text, "mouse y: {}", my);
+        std::println(gfx.text, "brightness {:.2f} ({:2}, {:2}, {:2})", brightness, modColor.r(), modColor.g(), modColor.b());
     }
 
     void onMouseMove(int x, int y, int dx, int dy)override {

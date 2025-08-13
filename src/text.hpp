@@ -1,13 +1,15 @@
 #pragma once
 
 #include <string>
+#include <iostream>
 #include "font.hpp"
 
 namespace pixanv {
     class RenderTarget;
 
-    class Text {
+    class Text :private std::streambuf, public std::ostream {
     public:
+        void putc(char c);
         void print(const std::string& text);
         void print(const char* text);
         void setXY(int x, int y);
@@ -16,8 +18,10 @@ namespace pixanv {
 
         void setBorders(int left, int right);
         void resetBorders();
+
     private:
         Text(RenderTarget& canvas);
+        int overflow(int c) override;
 
         int m_x = 0;
         int m_y = 0;
