@@ -45,6 +45,8 @@ public:
         keyDown = app.registerKey("Down");
         tex = pixanv::Resources::loadTexture("../../assets/testex2.tex");
         font = pixanv::Resources::loadFont("../../assets/main.fon");
+        gfx.text.setFont(&font);
+        gfx.text.setBorders(10, FRAME_WIDTH - 20);
         //app.setCursorVisible(false);
     }
 
@@ -85,10 +87,12 @@ public:
         int r = modColor.g();
         gfx.blit(tex, 0, 0, modColor);
         gfx.pixel(mx, my, pixanv::Color::RED);
-        gfx.print(font, 10, 100, "Hello ");
-        gfx.print(font, "World", pixanv::Color::YELLOW);
-        gfx.print(font, "!");
-        gfx.print(font, 10, 116, "const pixanv::Color bgColor = pixanv::Color(5, 10, 5);");
+        gfx.text.setXY(10, 100);
+        gfx.text.print("Hello ");
+        gfx.text.setColor(pixanv::Color::YELLOW);
+        gfx.text.print("World");
+        gfx.text.setColor(pixanv::Color::WHITE);
+        gfx.text.print("!\nconst pixanv::Color bgColor = pixanv::Color(5, 10, 5); pixanv::Color modColor = pixanv::Color::WHITE * brightness;");
     }
 
     void onMouseMove(int x, int y, int dx, int dy)override {

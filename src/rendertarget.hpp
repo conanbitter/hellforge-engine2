@@ -3,11 +3,14 @@
 #include "rect.hpp"
 #include "texture.hpp"
 #include "font.hpp"
+#include "text.hpp"
 #include <string>
 
 namespace pixanv {
     class RenderTarget :public ImageBuffer {
     public:
+        RenderTarget() :text(*this) {}
+
         void blit(const Texture& src, int x, int y, Color color = Color::WHITE);
         void blit(const Texture& src, int x, int y, const Rect& srcRect, Color color = Color::WHITE);
         void blit(const Texture& src, const Rect& dstRect, Color color = Color::WHITE);
@@ -22,6 +25,8 @@ namespace pixanv {
         void print(const Font& font, const std::string& text, Color color = Color::WHITE);
         //void blit(const ImageBuffer& src, int x, int y);
         //void blit(const Sprite& sprite);
+
+        Text text;
     private:
         void resize(int width, int height);
         void blitCopy(const ImageBuffer& src, int x, int y, const Rect& srcRect);

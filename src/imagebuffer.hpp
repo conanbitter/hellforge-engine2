@@ -32,5 +32,6 @@ namespace pixanv {
         Color pixelRaw(int x, int y) const;
 
         friend class RenderTarget;
+        friend class Text;
     };
 }

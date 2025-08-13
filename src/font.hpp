@@ -17,5 +17,6 @@ namespace pixanv {
 
         friend class Resources;
         friend class RenderTarget;
+        friend class Text;
     };
 }
