@@ -24,6 +24,7 @@ namespace pixanv {
 
         bool operator==(const Color& rhs)const { return value == rhs.value; }
         Color operator*(const Color& rhs)const;
+        Color operator*(float rhs)const;
     private:
         uint16_t value;
     };

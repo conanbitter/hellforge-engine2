@@ -24,6 +24,9 @@ public:
     int keyLeft;
     int keyRight;
 
+    float brightness = 1.0;
+    float db = -0.001;
+
     const pixanv::Color bgColor = pixanv::Color(5, 10, 5);
     pixanv::Texture tex;
     pixanv::Font font;
@@ -60,13 +63,27 @@ public:
         }
     }
 
+    void onUpdate()override {
+        brightness += db;
+        if (brightness > 1.0f) {
+            brightness = 1.0f;
+            db = -db;
+        } else if (brightness < 0.0f) {
+            brightness = 0.0f;
+            db = -db;
+        }
+    }
+
+
     void onDraw()override {
         pixanv::Rect test(5, 5, 64, 64);
         pixanv::Rect test2(px, py, 32, 32);
         test2.right = 31;
         test2.bottom = 31;
         gfx.fill(bgColor);
-        gfx.blit(tex, 0, 0, pixanv::Color(31, 50, 20));
+        pixanv::Color modColor = pixanv::Color::WHITE * brightness;
+        int r = modColor.g();
+        gfx.blit(tex, 0, 0, modColor);
         gfx.pixel(mx, my, pixanv::Color::RED);
         gfx.print(font, 10, 100, "Hello ");
         gfx.print(font, "World", pixanv::Color::YELLOW);

@@ -31,6 +31,15 @@ Color pixanv::Color::operator*(const Color& rhs) const
     );
 }
 
+Color pixanv::Color::operator*(float rhs) const
+{
+    return Color(
+        r() * rhs,
+        g() * rhs,
+        b() * rhs
+    );
+}
+
 
 
 const Color Color::BLACK = Color(0, 0, 0);
