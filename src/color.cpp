@@ -1,4 +1,5 @@
 #include "color.hpp"
+#include <cmath>
 
 using namespace pixanv;
 
@@ -34,9 +35,9 @@ Color pixanv::Color::operator*(const Color& rhs) const
 Color pixanv::Color::operator*(float rhs) const
 {
     return Color(
-        r() * rhs,
-        g() * rhs,
-        b() * rhs
+        std::round(r() * rhs),
+        std::round(g() * rhs),
+        std::round(b() * rhs)
     );
 }
 
