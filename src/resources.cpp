@@ -42,7 +42,7 @@ Font pixanv::Resources::loadFont(const std::string& filename)
 
     Font result;
     char endChar;
-    uint16_t height, width, letterSpace;
+    uint16_t height, lineHeight, width, letterSpace;
     uint8_t hasTransparency;
     Color transparentColor;
 
@@ -50,6 +50,7 @@ Font pixanv::Resources::loadFont(const std::string& filename)
     infile.read(reinterpret_cast<char*>(&endChar), sizeof(endChar));
     infile.read(reinterpret_cast<char*>(&result.fallbackChar), sizeof(result.fallbackChar));
     infile.read(reinterpret_cast<char*>(&letterSpace), sizeof(letterSpace));
+    infile.read(reinterpret_cast<char*>(&lineHeight), sizeof(lineHeight));
     infile.read(reinterpret_cast<char*>(&height), sizeof(height));
     infile.read(reinterpret_cast<char*>(&hasTransparency), sizeof(hasTransparency));
     if (hasTransparency == 1) {
@@ -59,6 +60,7 @@ Font pixanv::Resources::loadFont(const std::string& filename)
     }
 
     result.letterSpace = letterSpace;
+    result.lineHeight = lineHeight;
     int length = endChar - result.codeOffset + 1;
     result.fallbackChar -= result.codeOffset;
     result.letters.clear();

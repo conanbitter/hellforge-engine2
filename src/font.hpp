@@ -12,6 +12,7 @@ namespace pixanv {
         char codeOffset;
         char fallbackChar;
         int letterSpace;
+        int lineHeight;
         vector<Texture> letters;
 
         friend class Resources;

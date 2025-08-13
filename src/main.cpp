@@ -88,6 +88,7 @@ public:
         gfx.print(font, 10, 100, "Hello ");
         gfx.print(font, "World", pixanv::Color::YELLOW);
         gfx.print(font, "!");
+        gfx.print(font, 10, 116, "const pixanv::Color bgColor = pixanv::Color(5, 10, 5);");
     }
 
     void onMouseMove(int x, int y, int dx, int dy)override {
